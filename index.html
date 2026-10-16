@@ -1173,3 +1173,184 @@
   </script>
 </body>
 </html>
+ picture-in-picture"
+    loading="eager"
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+
+  <script>
+    // Falling flowers 🌸
+    function createPetals() {
+      const flowers = ["🌸", "🌷", "🌺", "✿", "❀", "♡", "💮"];
+      const count = window.innerWidth <= 520 ? 24 : 36;
+
+      for (let i = 0; i < count; i++) {
+        const petal = document.createElement("span");
+        petal.className = "petal";
+        petal.textContent =
+          flowers[Math.floor(Math.random() * flowers.length)];
+
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.fontSize = (12 + Math.random() * 17) + "px";
+        petal.style.animationDuration = (10 + Math.random() * 15) + "s";
+        petal.style.animationDelay = (-Math.random() * 22) + "s";
+
+        const drift = Math.round(Math.random() * 110 - 55);
+        const spin = Math.round(Math.random() * 640 - 320);
+
+        petal.style.setProperty("--drift", drift + "px");
+        petal.style.setProperty("--half-drift", drift / 2 + "px");
+        petal.style.setProperty("--spin", spin + "deg");
+        petal.style.setProperty("--half-spin", spin / 2 + "deg");
+
+        document.body.appendChild(petal);
+      }
+    }
+
+    createPetals();
+
+    // Love letter 💌
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const hint = document.getElementById("hint");
+
+    function heartBurst() {
+      const symbols = ["💗", "💕", "🌸", "♡", "❤️"];
+
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("span");
+        heart.textContent = symbols[i % symbols.length];
+
+        heart.style.cssText = `
+          position: fixed;
+          left: ${10 + Math.random() * 80}vw;
+          top: ${30 + Math.random() * 40}vh;
+          z-index: 10;
+          pointer-events: none;
+          font-size: ${16 + Math.random() * 20}px;
+          transition: transform 1.6s ease, opacity 1.6s ease;
+        `;
+
+        document.body.appendChild(heart);
+
+        requestAnimationFrame(() => {
+          heart.style.transform =
+            "translateY(-140px) rotate(35deg)";
+          heart.style.opacity = "0";
+        });
+
+        setTimeout(() => heart.remove(), 1700);
+      }
+    }
+
+    function openLetter() {
+      if (!letter.classList.contains("show")) {
+        envelope.classList.add("open");
+        envelope.setAttribute("aria-expanded", "true");
+        hint.textContent = "A letter, straight from my heart 💗";
+        letter.classList.add("show");
+
+        setTimeout(() => {
+          letter.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }, 350);
+
+        heartBurst();
+      } else {
+        letter.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }
+
+    envelope.addEventListener("click", openLetter);
+    document.getElementById("openBtn")
+      .addEventListener("click", openLetter);
+
+    // JVKE - her 🎶
+    const welcomeScreen = document.getElementById("welcomeScreen");
+    const enterButton = document.getElementById("enterButton");
+    const musicDock = document.getElementById("musicDock");
+    const musicToggle = document.getElementById("musicToggle");
+    const songFrame = document.getElementById("songFrame");
+
+    const songVideoId = "f5-IY_Ja1RM";
+    let musicLoaded = false;
+    let musicPlaying = false;
+
+    function startMusic() {
+      if (!musicLoaded) {
+        musicLoaded = true;
+
+        songFrame.src =
+          "https://www.youtube-nocookie.com/embed/" +
+          songVideoId +
+          "?autoplay=1&controls=0&playsinline=1&loop=1&playlist=" +
+          songVideoId +
+          "&enablejsapi=1&origin=" +
+          encodeURIComponent(window.location.origin);
+      } else {
+        songFrame.contentWindow.postMessage(
+          JSON.stringify({
+            event: "command",
+            func: "playVideo",
+            args: ""
+          }),
+          "*"
+        );
+      }
+
+      musicPlaying = true;
+      musicToggle.textContent = "Ⅱ";
+      musicToggle.setAttribute(
+        "aria-label",
+        "Pause background music"
+      );
+    }
+
+    function pauseMusic() {
+      if (musicLoaded) {
+        songFrame.contentWindow.postMessage(
+          JSON.stringify({
+            event: "command",
+            func: "pauseVideo",
+            args: ""
+          }),
+          "*"
+        );
+      }
+
+      musicPlaying = false;
+      musicToggle.textContent = "▶";
+      musicToggle.setAttribute(
+        "aria-label",
+        "Play background music"
+      );
+    }
+
+    // Open the welcome screen and attempt to start the music.
+    enterButton.addEventListener("click", () => {
+      startMusic();
+
+      welcomeScreen.classList.add("leave");
+      document.body.classList.remove("intro-active");
+      musicDock.classList.add("ready");
+
+      setTimeout(() => {
+        welcomeScreen.remove();
+      }, 900);
+    });
+
+    musicToggle.addEventListener("click", () => {
+      if (musicPlaying) {
+        pauseMusic();
+      } else {
+        startMusic();
+      }
+    });
+  </script>
+</body>
+</html>
