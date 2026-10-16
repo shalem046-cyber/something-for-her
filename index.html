@@ -900,15 +900,14 @@
       transform: scale(1.08);
     }
 
-    .music-iframe {
+    .music-audio {
       position: fixed;
-      left: -260px;
-      top: -260px;
-      width: 200px;
-      height: 200px;
+      left: -10px;
+      bottom: -10px;
+      width: 1px;
+      height: 1px;
       opacity: 0;
       pointer-events: none;
-      border: 0;
     }
 
     @media (max-width: 520px) {
@@ -1162,7 +1161,7 @@
       </button>
 
       <button class="btn" id="musicBtn" type="button">
-        ♫ Play a Little Melody
+        ♫ Play Kannuladha
       </button>
     </div>
 
@@ -1182,7 +1181,7 @@
 
     <div class="music-track">
       <small>our background song</small>
-      <strong>her · JVKE</strong>
+      <strong>Kannuladha · Anirudh</strong>
     </div>
 
     <button
@@ -1190,18 +1189,18 @@
       id="musicToggle"
       type="button"
       aria-label="Pause background music"
-      title="Pause her by JVKE"
+      title="Pause Kannuladha"
     >Ⅱ</button>
   </div>
 
-  <iframe
-    class="music-iframe"
-    id="songFrame"
-    title="her by JVKE background music"
-    allow="autoplay; encrypted-media; picture-in-picture"
-    loading="eager"
-    referrerpolicy="strict-origin-when-cross-origin"
-  ></iframe>
+  <audio
+    class="music-audio"
+    id="songAudio"
+    title="Kannuladha background music"
+    loop
+    preload="auto"
+    src="./ytmp3free.cc_3-telugu-kannuladha-video-dhanush-shruti-anirudh-youtubemp3free.org.mp3"
+  ></audio>
 
   <script>
     // Falling flowers
@@ -1311,80 +1310,68 @@
     document.getElementById("openBtn")
       .addEventListener("click", openLetter);
 
-    // Background song: JVKE - her
-    // Browsers may require a user interaction before playing audio.
+    // Local background track: Kannuladha
+    // Browser audio playback starts after the visitor taps the welcome button.
     const welcomeScreen = document.getElementById("welcomeScreen");
     const enterButton = document.getElementById("enterButton");
     const musicDock = document.getElementById("musicDock");
     const musicToggle = document.getElementById("musicToggle");
     const musicBtn = document.getElementById("musicBtn");
     const musicNote = document.getElementById("musicNote");
-    const songFrame = document.getElementById("songFrame");
+    const songAudio = document.getElementById("songAudio");
 
     let musicIsPlaying = false;
-    let musicStarted = false;
 
-    // YouTube video ID intended for JVKE's "her" lyric video.
-    const songVideoId = "f5-IY_Ja1RM";
+    function syncMusicControls(playing) {
+      musicIsPlaying = playing;
+      musicToggle.textContent = playing ? "Ⅱ" : "▶";
+      musicToggle.setAttribute(
+        "aria-label",
+        playing ? "Pause Kannuladha" : "Play Kannuladha"
+      );
+      musicToggle.title = playing ? "Pause Kannuladha" : "Play Kannuladha";
+      musicBtn.textContent = playing ? "Ⅱ Pause Kannuladha" : "♫ Play Kannuladha";
+    }
 
-    function startMusic() {
-      if (!musicStarted) {
-        musicStarted = true;
-
-        songFrame.src =
-          "https://www.youtube-nocookie.com/embed/" + songVideoId +
-          "?autoplay=1&controls=0&playsinline=1&loop=1&playlist=" +
-          songVideoId +
-          "&enablejsapi=1&modestbranding=1&rel=0&origin=" +
-          encodeURIComponent(window.location.origin);
-      } else {
-        songFrame.contentWindow.postMessage(
-          JSON.stringify({
-            event: "command",
-            func: "playVideo",
-            args: ""
-          }),
-          "*"
-        );
+    async function startMusic() {
+      musicDock.classList.add("ready");
+      try {
+        await songAudio.play();
+        syncMusicControls(true);
+        musicNote.textContent = "Now playing: Kannuladha · Anirudh ♡";
+      } catch (error) {
+        syncMusicControls(false);
+        musicNote.textContent =
+          "Kannuladha is selected, but its MP3 file is empty or unavailable. Upload the actual MP3 to GitHub, then refresh ♡";
+        console.warn("Could not play Kannuladha:", error);
       }
-
-      musicIsPlaying = true;
-
-      musicToggle.textContent = "Ⅱ";
-      musicToggle.setAttribute("aria-label", "Pause background music");
-      musicToggle.title = "Pause her by JVKE";
-      musicBtn.textContent = "Ⅱ Pause the Melody";
-      musicNote.textContent = "Now playing: her · JVKE ♡";
     }
 
     function pauseMusic() {
-      if (musicStarted) {
-        songFrame.contentWindow.postMessage(
-          JSON.stringify({
-            event: "command",
-            func: "pauseVideo",
-            args: ""
-          }),
-          "*"
-        );
-      }
-
-      musicIsPlaying = false;
-
-      musicToggle.textContent = "▶";
-      musicToggle.setAttribute("aria-label", "Play background music");
-      musicToggle.title = "Play her by JVKE";
-      musicBtn.textContent = "♫ Play a Little Melody";
-      musicNote.textContent = "Music paused · play it again whenever you like ♡";
+      songAudio.pause();
+      syncMusicControls(false);
+      musicNote.textContent = "Kannuladha paused · play it again whenever you like ♡";
     }
 
-    // Opening the little world also attempts to start the song.
+    songAudio.addEventListener("error", function() {
+      syncMusicControls(false);
+      musicNote.textContent =
+        "The Kannuladha MP3 could not be loaded. Check that the uploaded song file is not empty ♡";
+    });
+
+    songAudio.addEventListener("play", function() {
+      syncMusicControls(true);
+    });
+
+    songAudio.addEventListener("pause", function() {
+      if (!songAudio.ended) syncMusicControls(false);
+    });
+
+    // Clicking to enter is the gesture that starts the background song.
     enterButton.addEventListener("click", () => {
       startMusic();
-
       welcomeScreen.classList.add("leave");
       document.body.classList.remove("intro-active");
-
       musicDock.classList.add("ready");
 
       setTimeout(() => {
@@ -1400,15 +1387,14 @@
       }
     });
 
-    // The main music button now controls the same background song.
     musicBtn.addEventListener("click", () => {
       if (musicIsPlaying) {
         pauseMusic();
       } else {
-        musicDock.classList.add("ready");
         startMusic();
       }
     });
+
   </script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script>
