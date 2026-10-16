@@ -1156,7 +1156,7 @@
     title="Kannuladha background music"
     loop
     preload="auto"
-    src="./3%20Telugu%20-%20Kannuladha%20Video%20Dhanush%20Shruti%20Anirudh%20%5Byouaretube.com%5D.mp3"
+    src="https://raw.githubusercontent.com/shalem046-cyber/something-for-her/main/3%20Telugu%20-%20Kannuladha%20Video%20Dhanush%20Shruti%20Anirudh%20%5Byouaretube.com%5D.mp3?v=2"
   ></audio>
 
   <script>
@@ -1293,14 +1293,14 @@
     async function startMusic() {
       musicDock.classList.add("ready");
       try {
-        songAudio.load();
+        songAudio.volume = 0.8;
         await songAudio.play();
         syncMusicControls(true);
         musicNote.textContent = "Now playing: Kannuladha ♡";
       } catch (error) {
         syncMusicControls(false);
         musicNote.textContent =
-          "Your Kannuladha MP3 is empty or unavailable. Upload the actual MP3 file to GitHub, then refresh ♡";
+          "The song could not start. Check your internet connection, then tap Play Kannuladha again ♡";
         console.warn("Could not play the uploaded MP3:", error);
       }
     }
@@ -1314,7 +1314,7 @@
     songAudio.addEventListener("error", function() {
       syncMusicControls(false);
       musicNote.textContent =
-        "Kannuladha could not load because the MP3 file is empty or unavailable. Replace the file in GitHub with the actual audio ♡";
+        "Kannuladha could not load. Check your connection and try the Play Kannuladha button again ♡";
     });
 
     songAudio.addEventListener("play", function() {
