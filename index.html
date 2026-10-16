@@ -227,28 +227,6 @@
       font: 16px/1.45 'Playfair Display', serif;
       text-align: center;
     }
-    .photo-featured-label {
-      align-self: center;
-      margin: 4px 6px 10px;
-      padding: 6px 12px;
-      border: 1px solid #e4b3c5;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #fff0f5, #f8dce6);
-      color: #9b4564;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1.7px;
-      text-transform: uppercase;
-    }
-    .photo-featured-label[hidden] { display: none; }
-    .photo-card.featured {
-      grid-column: 1 / -1;
-      padding: 11px;
-      border-color: #d89ab1;
-      background: linear-gradient(145deg, #fffdfd, #fff1f6);
-      box-shadow: 0 15px 42px #a64d6d20, 0 0 0 3px #f3d4e0a6;
-      animation: photoArrive .8s cubic-bezier(.2,.75,.2,1) both, featuredGlow 4.5s ease-in-out 1s infinite;
-    }
     .photo-card.featured img {
       display: block;
       width: 100%;
@@ -259,18 +237,9 @@
       background: radial-gradient(ellipse at center, #f8e7ee, #fdf7f9 70%);
       border-radius: 12px;
     }
-    .photo-card.featured .photo-caption {
-      padding: 13px 10px 8px;
-      color: #893b5a;
-      font-size: clamp(17px, 2.7vw, 21px);
-    }
     @keyframes photoArrive {
       from { opacity: 0; transform: translateY(17px) scale(.985); }
       to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes featuredGlow {
-      0%, 100% { box-shadow: 0 15px 42px #a64d6d20, 0 0 0 3px #f3d4e0a6; }
-      50% { box-shadow: 0 18px 48px #a64d6d2a, 0 0 0 5px #f3d4e080; }
     }
     .photo-lightbox {
       display: none;
@@ -324,8 +293,6 @@
       .photo-card { padding: 6px; border-radius: 14px; }
       .photo-card img { aspect-ratio: 3 / 4; border-radius: 9px; }
       .photo-caption { padding: 10px 4px 5px; font-size: 14px; }
-      .photo-card.featured { padding: 8px; }
-      .photo-card.featured img { height: min(62vh, 560px); aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; }
       .photo-featured-label { letter-spacing: 1.2px; font-size: 8px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -1407,7 +1374,7 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script>
-    // Load the photos from the ZIP already uploaded to this repository.
+    // Load pictures from the ZIP and omit the photo that was previously highlighted.
     (async function loadPhotoAlbum() {
       const zipUrl = "https://raw.githubusercontent.com/shalem046-cyber/something-for-her/main/WhatsApp%20Unknown%202026-10-16%20at%2010.08.49%20PM.zip";
       const gallery = document.getElementById("photoGallery");
@@ -1415,7 +1382,6 @@
       const lightbox = document.getElementById("photoLightbox");
       const lightboxImage = document.getElementById("photoLightboxImage");
       const lightboxCaption = document.getElementById("photoLightboxCaption");
-      const closeButton = document.getElementById("photoLightboxClose");
 
       const lovelyCaptions = [
         "A little moment worth keeping ♡",
@@ -1435,7 +1401,7 @@
         lightboxImage.src = "";
       }
 
-      closeButton.addEventListener("click", closeLightbox);
+      document.getElementById("photoLightboxClose").addEventListener("click", closeLightbox);
       lightbox.addEventListener("click", function(event) {
         if (event.target === lightbox) closeLightbox();
       });
@@ -1460,9 +1426,8 @@
           return;
         }
 
+        const imageLoads = [];
         let shown = 0;
-        let bestResolution = -1;
-        let featuredCard = null;
 
         for (let index = 0; index < files.length; index++) {
           const file = files[index];
@@ -1474,16 +1439,12 @@
               webp: "image/webp", gif: "image/gif", avif: "image/avif"
             })[ext] || "application/octet-stream";
             const url = URL.createObjectURL(new Blob([rawBlob], { type: mime }));
+
             const card = document.createElement("button");
             card.type = "button";
             card.className = "photo-card";
             card.style.setProperty("--photo-delay", Math.min(index * 65, 650) + "ms");
             card.setAttribute("aria-label", "View photo " + (index + 1));
-
-            const featureLabel = document.createElement("span");
-            featureLabel.className = "photo-featured-label";
-            featureLabel.textContent = "A moment to remember ✨";
-            featureLabel.hidden = true;
 
             const img = document.createElement("img");
             img.alt = lovelyCaptions[index % lovelyCaptions.length];
@@ -1492,83 +1453,56 @@
 
             const caption = document.createElement("span");
             caption.className = "photo-caption";
-            caption.dataset.defaultCaption = lovelyCaptions[index % lovelyCaptions.length];
-            caption.textContent = caption.dataset.defaultCaption;
+            caption.textContent = lovelyCaptions[index % lovelyCaptions.length];
 
-            card.append(featureLabel, img, caption);
+            card.append(img, caption);
             card.addEventListener("click", function() {
               lightboxImage.src = url;
               lightboxImage.alt = img.alt;
               lightboxCaption.textContent = caption.textContent;
               lightbox.classList.add("open");
-              closeButton.focus();
+              document.getElementById("photoLightboxClose").focus();
             });
 
-            img.addEventListener("load", function() {
-              // Promote the highest-resolution photo to the featured frame.
-              // This gives it the best display quality without guessing from filenames.
-              const resolutionScore = img.naturalWidth * img.naturalHeight;
-              if (resolutionScore > bestResolution) {
-                if (featuredCard) {
-                  featuredCard.classList.remove("featured");
-                  const oldLabel = featuredCard.querySelector(".photo-featured-label");
-                  const oldCaption = featuredCard.querySelector(".photo-caption");
-                  if (oldLabel) oldLabel.hidden = true;
-                  if (oldCaption) oldCaption.textContent = oldCaption.dataset.defaultCaption;
-                }
-                featuredCard = card;
-                bestResolution = resolutionScore;
-                card.classList.add("featured");
-                featureLabel.hidden = false;
-                caption.textContent = "A moment that deserves a little extra love ♡";
-                status.textContent = "Your featured memory is ready ✨";
-              }
+            const loadPromise = new Promise(resolve => {
+              img.addEventListener("load", function() {
+                resolve({ card, img, url });
+              }, { once: true });
+              img.addEventListener("error", function() {
+                card.remove();
+                shown--;
+                resolve(null);
+              }, { once: true });
             });
 
-            img.addEventListener("error", function() {
-              const wasFeatured = card.classList.contains("featured");
-              card.remove();
-              shown--;
-              if (wasFeatured) {
-                featuredCard = null;
-                bestResolution = -1;
-                const loadedCards = Array.from(gallery.querySelectorAll(".photo-card"));
-                for (const loadedCard of loadedCards) {
-                  const loadedImage = loadedCard.querySelector("img");
-                  if (loadedImage && loadedImage.complete && loadedImage.naturalWidth) {
-                    const score = loadedImage.naturalWidth * loadedImage.naturalHeight;
-                    if (score > bestResolution) {
-                      if (featuredCard) {
-                        featuredCard.classList.remove("featured");
-                        featuredCard.querySelector(".photo-featured-label").hidden = true;
-                        const previousCaption = featuredCard.querySelector(".photo-caption");
-                        previousCaption.textContent = previousCaption.dataset.defaultCaption;
-                      }
-                      featuredCard = loadedCard;
-                      bestResolution = score;
-                      featuredCard.classList.add("featured");
-                      featuredCard.querySelector(".photo-featured-label").hidden = false;
-                      featuredCard.querySelector(".photo-caption").textContent = "A moment that deserves a little extra love ♡";
-                    }
-                  }
-                }
-              }
-              status.textContent = shown > 0 ? shown + " photos, gathered with love ♡" : "The photos could not be displayed.";
-            });
-
-            img.src = url;
             gallery.appendChild(card);
             shown++;
+            imageLoads.push(loadPromise);
+            img.src = url;
           } catch (fileError) {
             console.warn("A photo could not be read:", file.name, fileError);
           }
         }
 
-        if (shown) {
-          status.textContent = shown + " photos, gathered with love ♡";
-        } else {
-          status.textContent = "The uploaded album did not contain readable photos.";
+        const loadedImages = (await Promise.all(imageLoads)).filter(
+          record => record && record.img.naturalWidth > 0
+        );
+
+        // Remove the image that was previously singled out as the featured photo.
+        // Choose it by resolution, matching the prior automatic highlight behavior.
+        if (loadedImages.length) {
+          const previouslyHighlighted = loadedImages.reduce((best, current) => {
+            const bestPixels = best.img.naturalWidth * best.img.naturalHeight;
+            const currentPixels = current.img.naturalWidth * current.img.naturalHeight;
+            return currentPixels > bestPixels ? current : best;
+          });
+          previouslyHighlighted.card.remove();
+          shown--;
         }
+
+        status.textContent = shown > 0
+          ? shown + " photos, gathered with love ♡"
+          : "No photos left to display in the album.";
       } catch (error) {
         console.error("Photo gallery error:", error);
         status.textContent = "The photo album could not be loaded right now. Please refresh the page and try again.";
