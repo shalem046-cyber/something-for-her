@@ -129,21 +129,38 @@
     }
 
 
-    /* Personal photo album */
+    /* Personal photo album — elegant, animated, mobile-first */
     .memories-section {
-      margin: 30px 0 42px;
-      padding: clamp(20px, 4vw, 34px);
-      border: 1px solid #edd5df;
-      border-radius: 24px;
-      background: rgba(255, 253, 251, .68);
-      box-shadow: 0 18px 52px #71324b0a;
+      position: relative;
+      isolation: isolate;
+      margin: 34px 0 44px;
+      padding: clamp(22px, 4.5vw, 38px);
+      overflow: hidden;
+      border: 1px solid #e8c5d3;
+      border-radius: 28px;
+      background:
+        radial-gradient(ellipse at 8% 0%, #fff2f7 0, transparent 48%),
+        linear-gradient(145deg, rgba(255,253,251,.94), rgba(255,246,249,.82));
+      box-shadow: 0 24px 72px #71324b10, inset 0 1px 0 #ffffffd9;
     }
+    .memories-section::before,
+    .memories-section::after {
+      position: absolute;
+      z-index: -1;
+      content: "✧";
+      color: #dca1b8;
+      opacity: .42;
+      pointer-events: none;
+    }
+    .memories-section::before { top: 22px; right: 25px; font-size: 27px; }
+    .memories-section::after { left: 18px; bottom: 17px; font-size: 20px; }
     .memories-heading { text-align: center; }
+    .memories-heading .eyebrow { letter-spacing: 2.8px; }
     .memories-title {
-      margin: 12px 0 10px;
+      margin: 13px 0 10px;
       color: #55263d;
-      font: 500 clamp(30px, 5.4vw, 46px)/1.2 'Playfair Display', serif;
-      letter-spacing: -1px;
+      font: 500 clamp(31px, 5.4vw, 48px)/1.18 'Playfair Display', serif;
+      letter-spacing: -1.1px;
     }
     .memories-title em { color: #bd5877; }
     .memories-copy {
@@ -151,7 +168,7 @@
       margin: 0 auto;
       color: #90697a;
       font-size: 13px;
-      line-height: 1.8;
+      line-height: 1.9;
     }
     .photo-status {
       margin: 20px 0 4px;
@@ -163,45 +180,96 @@
     .photo-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
-      gap: 15px;
-      margin-top: 22px;
+      align-items: start;
+      gap: 16px;
+      margin-top: 24px;
     }
     .photo-card {
-      display: block;
+      position: relative;
+      display: flex;
+      flex-direction: column;
       width: 100%;
       min-width: 0;
       padding: 8px;
       border: 1px solid #ecd2dc;
-      border-radius: 17px;
-      background: rgba(255, 250, 252, .95);
+      border-radius: 18px;
+      background: rgba(255, 250, 252, .97);
       color: #783b56;
       text-align: left;
       cursor: zoom-in;
-      box-shadow: 0 7px 22px #8d3c5a0b;
-      transition: transform .25s ease, box-shadow .25s ease;
-      animation: photoArrive .55s ease both;
+      box-shadow: 0 8px 24px #8d3c5a0b;
+      transition: transform .35s cubic-bezier(.2,.75,.2,1), box-shadow .35s, border-color .35s;
+      animation: photoArrive .7s cubic-bezier(.2,.75,.2,1) both;
+      animation-delay: var(--photo-delay, 0s);
     }
     .photo-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 13px 28px #8d3c5a18;
+      z-index: 2;
+      transform: translateY(-6px) rotate(-.25deg);
+      box-shadow: 0 18px 34px #8d3c5a1c;
+      border-color: #d8a0b6;
     }
     .photo-card img {
       display: block;
       width: 100%;
       aspect-ratio: 4 / 5;
       object-fit: cover;
+      object-position: center;
       border-radius: 11px;
       background: #f8e9ee;
+      transition: filter .35s, transform .5s;
     }
+    .photo-card:hover img { filter: saturate(1.04); }
     .photo-caption {
       display: block;
-      padding: 10px 5px 4px;
+      padding: 12px 7px 7px;
       overflow-wrap: anywhere;
-      font: 15px 'Playfair Display', serif;
+      color: #77465c;
+      font: 16px/1.45 'Playfair Display', serif;
+      text-align: center;
+    }
+    .photo-featured-label {
+      align-self: center;
+      margin: 4px 6px 10px;
+      padding: 6px 12px;
+      border: 1px solid #e4b3c5;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fff0f5, #f8dce6);
+      color: #9b4564;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+    .photo-featured-label[hidden] { display: none; }
+    .photo-card.featured {
+      grid-column: 1 / -1;
+      padding: 11px;
+      border-color: #d89ab1;
+      background: linear-gradient(145deg, #fffdfd, #fff1f6);
+      box-shadow: 0 15px 42px #a64d6d20, 0 0 0 3px #f3d4e0a6;
+      animation: photoArrive .8s cubic-bezier(.2,.75,.2,1) both, featuredGlow 4.5s ease-in-out 1s infinite;
+    }
+    .photo-card.featured img {
+      width: 100%;
+      max-height: min(66vh, 590px);
+      aspect-ratio: auto;
+      object-fit: contain;
+      object-position: center;
+      background: radial-gradient(ellipse at center, #f8e7ee, #fdf7f9 70%);
+      border-radius: 12px;
+    }
+    .photo-card.featured .photo-caption {
+      padding: 13px 10px 8px;
+      color: #893b5a;
+      font-size: clamp(17px, 2.7vw, 21px);
     }
     @keyframes photoArrive {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(17px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes featuredGlow {
+      0%, 100% { box-shadow: 0 15px 42px #a64d6d20, 0 0 0 3px #f3d4e0a6; }
+      50% { box-shadow: 0 18px 48px #a64d6d2a, 0 0 0 5px #f3d4e080; }
     }
     .photo-lightbox {
       display: none;
@@ -213,21 +281,24 @@
       justify-content: center;
       flex-direction: column;
       gap: 12px;
-      background: rgba(41, 19, 32, .94);
+      background: rgba(41, 19, 32, .95);
       cursor: zoom-out;
+      backdrop-filter: blur(12px);
     }
-    .photo-lightbox.open { display: flex; animation: reveal .2s ease both; }
+    .photo-lightbox.open { display: flex; animation: reveal .22s ease both; }
     .photo-lightbox img {
       display: block;
-      max-width: min(94vw, 1000px);
+      max-width: min(94vw, 1100px);
       max-height: 78vh;
       object-fit: contain;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow: 0 18px 55px #0005;
+      animation: photoArrive .35s ease both;
     }
     .photo-lightbox-caption {
+      max-width: 90vw;
       color: #fff2f7;
-      font: 16px 'Playfair Display', serif;
+      font: 17px/1.5 'Playfair Display', serif;
       text-align: center;
       overflow-wrap: anywhere;
     }
@@ -235,21 +306,32 @@
       position: absolute;
       top: 14px;
       right: 16px;
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border: 1px solid #ffffff55;
       border-radius: 50%;
       color: #fff7fa;
       background: #ffffff18;
-      font-size: 23px;
+      font-size: 24px;
       cursor: pointer;
+      transition: background .2s, transform .2s;
     }
+    .photo-lightbox-close:hover { background: #ffffff30; transform: rotate(90deg); }
     @media (max-width: 520px) {
-      .memories-section { padding: 18px 13px 22px; }
-      .photo-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .photo-card { padding: 6px; border-radius: 13px; }
-      .photo-card img { aspect-ratio: 3 / 4; border-radius: 8px; }
-      .photo-caption { font-size: 13px; }
+      .memories-section { margin: 27px 0 34px; padding: 21px 13px 25px; border-radius: 22px; }
+      .photo-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
+      .photo-card { padding: 6px; border-radius: 14px; }
+      .photo-card img { aspect-ratio: 3 / 4; border-radius: 9px; }
+      .photo-caption { padding: 10px 4px 5px; font-size: 14px; }
+      .photo-card.featured { padding: 8px; }
+      .photo-card.featured img { max-height: 62vh; border-radius: 10px; }
+      .photo-featured-label { letter-spacing: 1.2px; font-size: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .photo-card, .photo-card.featured, .photo-card img, .photo-lightbox img {
+        animation: none !important;
+        transition: none !important;
+      }
     }
 
     /* Envelope */
@@ -957,7 +1039,7 @@
       <div class="memories-heading">
         <div class="eyebrow">little moments, kept close</div>
         <h2 class="memories-title" id="memoriesTitle">A little gallery of <em>you</em> ♡</h2>
-        <p class="memories-copy">Some moments are too lovely to leave tucked away. Here are the photos, gathered into one little place.</p>
+        <p class="memories-copy">Little moments, a little bit of magic, and memories worth keeping close. ♡</p>
       </div>
       <p class="photo-status" id="photoStatus" role="status" aria-live="polite">Opening your photo album…</p>
       <div class="photo-gallery" id="photoGallery"></div>
@@ -1314,7 +1396,7 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script>
-    // Load pictures from the ZIP already uploaded to this repository.
+    // Load the photos from the ZIP already uploaded to this repository.
     (async function loadPhotoAlbum() {
       const zipUrl = "https://raw.githubusercontent.com/shalem046-cyber/something-for-her/main/WhatsApp%20Unknown%202026-10-16%20at%2010.08.49%20PM.zip";
       const gallery = document.getElementById("photoGallery");
@@ -1324,10 +1406,18 @@
       const lightboxCaption = document.getElementById("photoLightboxCaption");
       const closeButton = document.getElementById("photoLightboxClose");
 
-      function displayName(path) {
-        const filename = path.split("/").pop().replace(/\.[^.]+$/, "");
-        return filename.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim() || "A little memory ♡";
-      }
+      const lovelyCaptions = [
+        "A little moment worth keeping ♡",
+        "Some memories feel like sunshine ✨",
+        "A soft little piece of happiness 🌷",
+        "One of those moments that stays 💗",
+        "Little things, lovely memories",
+        "A moment made a little brighter 🤍",
+        "A memory to smile about again",
+        "A lovely little pause in time ✨",
+        "Keeping this one close to the heart ♡",
+        "A simple moment, a sweet memory 🌸"
+      ];
 
       function closeLightbox() {
         lightbox.classList.remove("open");
@@ -1360,43 +1450,102 @@
         }
 
         let shown = 0;
-        for (const file of files) {
+        let bestResolution = -1;
+        let featuredCard = null;
+
+        for (let index = 0; index < files.length; index++) {
+          const file = files[index];
           try {
             const rawBlob = await file.async("blob");
             const ext = file.name.split(".").pop().toLowerCase();
-            const mime = ({ jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png",
-              webp: "image/webp", gif: "image/gif", avif: "image/avif" })[ext] || "application/octet-stream";
+            const mime = ({
+              jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png",
+              webp: "image/webp", gif: "image/gif", avif: "image/avif"
+            })[ext] || "application/octet-stream";
             const url = URL.createObjectURL(new Blob([rawBlob], { type: mime }));
-            const name = displayName(file.name);
-
             const card = document.createElement("button");
             card.type = "button";
             card.className = "photo-card";
-            card.setAttribute("aria-label", "View photo: " + name);
+            card.style.setProperty("--photo-delay", Math.min(index * 65, 650) + "ms");
+            card.setAttribute("aria-label", "View photo " + (index + 1));
+
+            const featureLabel = document.createElement("span");
+            featureLabel.className = "photo-featured-label";
+            featureLabel.textContent = "A moment to remember ✨";
+            featureLabel.hidden = true;
 
             const img = document.createElement("img");
-            img.src = url;
-            img.alt = name;
-            img.loading = "lazy";
+            img.alt = lovelyCaptions[index % lovelyCaptions.length];
             img.decoding = "async";
+            img.loading = "eager";
 
             const caption = document.createElement("span");
             caption.className = "photo-caption";
-            caption.textContent = name;
+            caption.dataset.defaultCaption = lovelyCaptions[index % lovelyCaptions.length];
+            caption.textContent = caption.dataset.defaultCaption;
 
-            card.append(img, caption);
+            card.append(featureLabel, img, caption);
             card.addEventListener("click", function() {
               lightboxImage.src = url;
-              lightboxImage.alt = name;
-              lightboxCaption.textContent = name;
+              lightboxImage.alt = img.alt;
+              lightboxCaption.textContent = caption.textContent;
               lightbox.classList.add("open");
               closeButton.focus();
             });
+
+            img.addEventListener("load", function() {
+              // Promote the highest-resolution photo to the featured frame.
+              // This gives it the best display quality without guessing from filenames.
+              const resolutionScore = img.naturalWidth * img.naturalHeight;
+              if (resolutionScore > bestResolution) {
+                if (featuredCard) {
+                  featuredCard.classList.remove("featured");
+                  const oldLabel = featuredCard.querySelector(".photo-featured-label");
+                  const oldCaption = featuredCard.querySelector(".photo-caption");
+                  if (oldLabel) oldLabel.hidden = true;
+                  if (oldCaption) oldCaption.textContent = oldCaption.dataset.defaultCaption;
+                }
+                featuredCard = card;
+                bestResolution = resolutionScore;
+                card.classList.add("featured");
+                featureLabel.hidden = false;
+                caption.textContent = "A moment that deserves a little extra love ♡";
+                status.textContent = "Your featured memory is ready ✨";
+              }
+            });
+
             img.addEventListener("error", function() {
+              const wasFeatured = card.classList.contains("featured");
               card.remove();
               shown--;
+              if (wasFeatured) {
+                featuredCard = null;
+                bestResolution = -1;
+                const loadedCards = Array.from(gallery.querySelectorAll(".photo-card"));
+                for (const loadedCard of loadedCards) {
+                  const loadedImage = loadedCard.querySelector("img");
+                  if (loadedImage && loadedImage.complete && loadedImage.naturalWidth) {
+                    const score = loadedImage.naturalWidth * loadedImage.naturalHeight;
+                    if (score > bestResolution) {
+                      if (featuredCard) {
+                        featuredCard.classList.remove("featured");
+                        featuredCard.querySelector(".photo-featured-label").hidden = true;
+                        const previousCaption = featuredCard.querySelector(".photo-caption");
+                        previousCaption.textContent = previousCaption.dataset.defaultCaption;
+                      }
+                      featuredCard = loadedCard;
+                      bestResolution = score;
+                      featuredCard.classList.add("featured");
+                      featuredCard.querySelector(".photo-featured-label").hidden = false;
+                      featuredCard.querySelector(".photo-caption").textContent = "A moment that deserves a little extra love ♡";
+                    }
+                  }
+                }
+              }
               status.textContent = shown > 0 ? shown + " photos, gathered with love ♡" : "The photos could not be displayed.";
             });
+
+            img.src = url;
             gallery.appendChild(card);
             shown++;
           } catch (fileError) {
@@ -1404,7 +1553,11 @@
           }
         }
 
-        status.textContent = shown ? shown + " photos, gathered with love ♡" : "The uploaded album did not contain readable photos.";
+        if (shown) {
+          status.textContent = shown + " photos, gathered with love ♡";
+        } else {
+          status.textContent = "The uploaded album did not contain readable photos.";
+        }
       } catch (error) {
         console.error("Photo gallery error:", error);
         status.textContent = "The photo album could not be loaded right now. Please refresh the page and try again.";
