@@ -857,15 +857,14 @@
       transform: scale(1.08);
     }
 
-    .music-iframe {
+    .music-audio {
       position: fixed;
-      left: -260px;
-      top: -260px;
-      width: 200px;
-      height: 200px;
+      left: -10px;
+      bottom: -10px;
+      width: 1px;
+      height: 1px;
       opacity: 0;
       pointer-events: none;
-      border: 0;
     }
 
     @media (max-width: 520px) {
@@ -1151,14 +1150,14 @@
     >Ⅱ</button>
   </div>
 
-  <iframe
-    class="music-iframe"
-    id="songFrame"
-    title="Kannuladha official music video audio"
-    allow="autoplay; encrypted-media; picture-in-picture"
-    loading="eager"
-    referrerpolicy="strict-origin-when-cross-origin"
-  ></iframe>
+  <audio
+    class="music-audio"
+    id="songAudio"
+    title="Kannuladha background music"
+    loop
+    preload="auto"
+    src="./ytmp3free.cc_3-telugu-kannuladha-video-dhanush-shruti-anirudh-youtubemp3free.org.mp3"
+  ></audio>
 
   <script>
     // Falling flowers
@@ -1268,19 +1267,17 @@
     document.getElementById("openBtn")
       .addEventListener("click", openLetter);
 
-    // Background track: official Kannuladha video.
-    // The welcome button click gives the browser a user gesture for playback.
+    // Play the actual Kannuladha MP3 uploaded to this repository.
+    // The file must contain audio data; an empty placeholder cannot play.
     const welcomeScreen = document.getElementById("welcomeScreen");
     const enterButton = document.getElementById("enterButton");
     const musicDock = document.getElementById("musicDock");
     const musicToggle = document.getElementById("musicToggle");
     const musicBtn = document.getElementById("musicBtn");
     const musicNote = document.getElementById("musicNote");
-    const songFrame = document.getElementById("songFrame");
+    const songAudio = document.getElementById("songAudio");
 
-    const songVideoId = "mLv0IV6zpAU";
     let musicIsPlaying = false;
-    let musicStarted = false;
 
     function syncMusicControls(playing) {
       musicIsPlaying = playing;
@@ -1293,46 +1290,41 @@
       musicBtn.textContent = playing ? "Ⅱ Pause Kannuladha" : "♫ Play Kannuladha";
     }
 
-    function startMusic() {
+    async function startMusic() {
       musicDock.classList.add("ready");
-
-      if (!musicStarted) {
-        musicStarted = true;
-        songFrame.src =
-          "https://www.youtube-nocookie.com/embed/" + songVideoId +
-          "?autoplay=1&controls=0&playsinline=1&loop=1&playlist=" +
-          songVideoId +
-          "&enablejsapi=1&modestbranding=1&rel=0&origin=" +
-          encodeURIComponent(window.location.origin);
-      } else {
-        songFrame.contentWindow.postMessage(
-          JSON.stringify({ event: "command", func: "playVideo", args: "" }),
-          "https://www.youtube-nocookie.com"
-        );
+      try {
+        songAudio.load();
+        await songAudio.play();
+        syncMusicControls(true);
+        musicNote.textContent = "Now playing: Kannuladha ♡";
+      } catch (error) {
+        syncMusicControls(false);
+        musicNote.textContent =
+          "Your Kannuladha MP3 is empty or unavailable. Upload the actual MP3 file to GitHub, then refresh ♡";
+        console.warn("Could not play the uploaded MP3:", error);
       }
-
-      syncMusicControls(true);
-      musicNote.textContent = "Now playing: Kannuladha · Dhanush, Shruti Haasan & Anirudh ♡";
     }
 
     function pauseMusic() {
-      if (musicStarted && songFrame.contentWindow) {
-        songFrame.contentWindow.postMessage(
-          JSON.stringify({ event: "command", func: "pauseVideo", args: "" }),
-          "https://www.youtube-nocookie.com"
-        );
-      }
-
+      songAudio.pause();
       syncMusicControls(false);
       musicNote.textContent = "Kannuladha paused · tap play to listen again ♡";
     }
 
-    songFrame.addEventListener("error", function() {
+    songAudio.addEventListener("error", function() {
       syncMusicControls(false);
-      musicNote.textContent = "The song player could not load. Check your connection and refresh ♡";
+      musicNote.textContent =
+        "Kannuladha could not load because the MP3 file is empty or unavailable. Replace the file in GitHub with the actual audio ♡";
     });
 
-    // Opening the little world requests playback from the official video embed.
+    songAudio.addEventListener("play", function() {
+      syncMusicControls(true);
+    });
+
+    songAudio.addEventListener("pause", function() {
+      if (!songAudio.ended) syncMusicControls(false);
+    });
+
     enterButton.addEventListener("click", () => {
       startMusic();
       welcomeScreen.classList.add("leave");
