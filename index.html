@@ -3,24 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#fff0f5">
-  <title>My Feelings for You, Maa ❤️</title>
+  <meta name="theme-color" content="#3d2033">
+  <title>My Feelings for You, Maa ♡</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --wine: #54253d;
+      --deep: #321b2a;
+      --rose: #b65375;
+      --blush: #f0c6d5;
+      --ink: #624656;
+      --cream: #fffaf8;
+      --line: #ecd2dc;
     }
 
-    :root {
-      --pink: #f8c4d6;
-      --rose: #d94d79;
-      --deep: #8f244b;
-      --text: #654151;
-      --cream: #fffafd;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html {
@@ -30,12 +34,13 @@
     body {
       min-height: 100vh;
       overflow-x: hidden;
-      color: var(--text);
-      font-family: "DM Sans", sans-serif;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
       background:
-        radial-gradient(ellipse at top left, #ffe0eb, transparent 45%),
-        radial-gradient(ellipse at bottom right, #f7d9e6, transparent 40%),
-        linear-gradient(135deg, #fffafd, #fff0f5);
+        radial-gradient(ellipse at 12% 8%, #fce7ec 0, transparent 37%),
+        radial-gradient(ellipse at 88% 76%, #f3dce7 0, transparent 35%),
+        linear-gradient(145deg, #fffaf8 0%, #fff4f6 48%, #f8e9ee 100%);
+      background-attachment: fixed;
     }
 
     button {
@@ -43,107 +48,84 @@
     }
 
     .page {
-      width: min(850px, 92%);
+      width: min(900px, 92%);
       margin: auto;
-      padding: 42px 0 60px;
-      position: relative;
+      padding: 44px 0 56px;
+      animation: pageArrive .9s ease both;
+    }
+
+    @keyframes pageArrive {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .eyebrow {
       text-align: center;
-      font-size: 11px;
-      letter-spacing: 4px;
       text-transform: uppercase;
-      color: #b35a78;
+      letter-spacing: 3.2px;
+      font-size: 10px;
+      color: #9b6479;
     }
 
     .hero {
       text-align: center;
-      padding: 34px 0 20px;
+      padding: 29px 0 17px;
     }
 
     .main-heart {
       display: inline-block;
-      font-size: 44px;
-      animation: heartbeat 1.6s infinite;
+      font-size: 43px;
+      filter: drop-shadow(0 7px 15px #c45d7b20);
+      animation: heartbeat 1.8s infinite;
     }
 
     @keyframes heartbeat {
       0%, 100% { transform: scale(1); }
-      15% { transform: scale(1.15); }
+      15% { transform: scale(1.13); }
       30% { transform: scale(1); }
-      45% { transform: scale(1.1); }
+      45% { transform: scale(1.08); }
     }
 
     h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(43px, 8vw, 76px);
-      line-height: 1.1;
+      font: 500 clamp(43px, 8vw, 76px)/1.1 'Playfair Display', serif;
       letter-spacing: -2px;
-      font-weight: 500;
-      margin: 16px 0;
-      color: #762744;
+      margin: 15px 0;
+      color: #55263d;
     }
 
     h1 em {
-      color: var(--rose);
+      color: #bd5877;
     }
 
     .subtitle {
-      max-width: 500px;
+      max-width: 480px;
       margin: 0 auto;
-      line-height: 1.8;
+      color: #90697a;
       font-size: 15px;
-      color: #9b6578;
+      line-height: 1.9;
     }
 
     .divider {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
-      margin: 27px 0;
-      color: var(--rose);
+      gap: 15px;
+      margin: 25px 0;
+      color: #b65a79;
     }
 
-    .divider::before,
-    .divider::after {
-      content: "";
-      width: 65px;
+    .divider:before,
+    .divider:after {
+      content: '';
       height: 1px;
-      background: #eab8ca;
-    }
-
-    /* Floating and falling flowers */
-
-    .petal {
-      position: fixed;
-      top: -50px;
-      z-index: 5;
-      pointer-events: none;
-      user-select: none;
-      animation: fall linear infinite;
-      filter: drop-shadow(0 3px 4px #a6426520);
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translate3d(0, -10vh, 0) rotate(0deg);
-        opacity: 0;
-      }
-
-      10% {
-        opacity: 0.9;
-      }
-
-      50% {
-        transform: translate3d(35px, 50vh, 0) rotate(240deg);
-      }
-
-      100% {
-        transform: translate3d(-30px, 115vh, 0) rotate(600deg);
-        opacity: 0.1;
-      }
+      width: 62px;
+      background: #e8c0cf;
     }
 
     /* Envelope */
@@ -152,7 +134,7 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      margin: 30px 0 35px;
+      margin: 22px 0 35px;
     }
 
     .envelope {
@@ -162,19 +144,20 @@
       border: 0;
       background: transparent;
       cursor: pointer;
-      filter: drop-shadow(0 15px 20px #a6426525);
-      transition: transform 0.3s;
+      filter: drop-shadow(0 20px 22px #7d36551c);
+      transition: transform .35s, filter .35s;
       -webkit-tap-highlight-color: transparent;
     }
 
     .envelope:hover {
-      transform: translateY(-5px);
+      transform: translateY(-7px) rotate(-.5deg);
+      filter: drop-shadow(0 24px 25px #7d365526);
     }
 
     .env-back {
       position: absolute;
       inset: 18px 0 0;
-      background: #e9a3bb;
+      background: #d993ad;
       border-radius: 8px;
     }
 
@@ -191,25 +174,24 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: transform 0.8s ease;
+      transition: transform .8s;
       z-index: 1;
     }
 
-    .env-paper .paper-icon {
+    .paper-icon {
       font-size: 32px;
     }
 
-    .env-paper .paper-text {
-      font-family: "Playfair Display", serif;
+    .paper-text {
+      font: 17px 'Playfair Display', serif;
       color: #a94367;
-      font-size: 17px;
       margin-top: 7px;
     }
 
     .env-front {
       position: absolute;
       inset: 18px 0 0;
-      background: linear-gradient(145deg, #f6c4d4, #df87a5);
+      background: linear-gradient(145deg, #f8d2df, #d981a0);
       clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
       border-radius: 0 0 8px 8px;
       z-index: 2;
@@ -219,10 +201,10 @@
       position: absolute;
       inset: 18px 0 auto;
       height: 105px;
-      background: #f2b4c9;
+      background: #edb4c7;
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top;
-      transition: transform 0.65s ease;
+      transition: transform .65s;
       z-index: 3;
     }
 
@@ -236,10 +218,10 @@
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: #b83261;
+      background: linear-gradient(145deg, #bd5275, #85324f);
       color: white;
       font-size: 21px;
-      box-shadow: 0 3px 8px #8f244b33;
+      box-shadow: 0 4px 12px #6a243b2f;
       z-index: 4;
     }
 
@@ -254,45 +236,47 @@
 
     .hint {
       margin-top: 12px;
+      color: #9f6b80;
       font-size: 13px;
-      color: #ad7186;
       text-align: center;
     }
 
-    /* Main love letter */
+    /* Love letter */
 
     .letter {
       display: none;
-      background: rgba(255, 253, 253, 0.96);
-      border: 1px solid #f2d6e0;
-      border-radius: 20px;
-      padding: clamp(23px, 5vw, 48px);
-      box-shadow: 0 22px 70px #9d41651a;
       position: relative;
       overflow: hidden;
+      padding: clamp(23px, 5vw, 48px);
+      background: rgba(255, 253, 251, .95);
+      border: 1px solid #edd5df;
+      border-radius: 24px;
+      box-shadow:
+        0 28px 80px #71324b12,
+        0 3px 12px #71324b08;
+      backdrop-filter: blur(10px);
     }
 
-    .letter::before {
-      content: "";
+    .letter:before {
+      content: '';
       position: absolute;
       left: 0;
       top: 0;
       bottom: 0;
-      width: 5px;
-      background: linear-gradient(#e78ca9, #b83261);
+      width: 4px;
+      background: linear-gradient(#e8a6bd, #a34465 75%, #7b3450);
     }
 
     .letter.show {
       display: block;
-      animation: revealLetter 0.9s ease both;
+      animation: reveal .8s ease both;
     }
 
-    @keyframes revealLetter {
+    @keyframes reveal {
       from {
         opacity: 0;
-        transform: translateY(25px);
+        transform: translateY(22px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -300,20 +284,19 @@
     }
 
     .letter-title {
-      font-family: "Playfair Display", serif;
+      font: 500 clamp(27px, 5vw, 40px)/1.2 'Playfair Display', serif;
       text-align: center;
-      font-size: clamp(27px, 5vw, 40px);
-      color: #8f244b;
-      margin-bottom: 8px;
+      color: #6a2b45;
+      margin-bottom: 9px;
     }
 
     .letter-subtitle {
       text-align: center;
-      color: #c16a88;
-      font-size: 11px;
-      letter-spacing: 2px;
+      color: #a75b78;
+      font-size: 10px;
+      letter-spacing: 2.3px;
       text-transform: uppercase;
-      margin-bottom: 30px;
+      margin-bottom: 29px;
     }
 
     .letter p {
@@ -321,24 +304,23 @@
       line-height: 2;
       margin-bottom: 20px;
       overflow-wrap: anywhere;
+      color: #654c58;
     }
 
     .letter strong {
-      color: #a12e58;
+      color: #9d3d60;
     }
 
     .signature {
       text-align: center;
       padding-top: 25px;
       margin-top: 20px;
-      border-top: 1px solid #f3dbe4;
+      border-top: 1px solid #efdce4;
     }
 
     .signature .big {
-      font-family: "Playfair Display", serif;
-      color: #b83261;
-      font-size: clamp(29px, 6vw, 45px);
-      line-height: 1.3;
+      font: clamp(29px, 6vw, 45px)/1.3 'Playfair Display', serif;
+      color: #a74365;
     }
 
     .signature .roses {
@@ -348,7 +330,7 @@
     }
 
     .signature .small {
-      color: #bd8499;
+      color: #a77b8d;
       font-size: 13px;
       margin-top: 14px;
     }
@@ -361,19 +343,20 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin: 27px 0;
+      margin: 30px 0;
     }
 
     .btn {
-      border: 1px solid #e7a7bd;
-      background: #fff8fb;
-      color: #9a3158;
+      border: 1px solid #dfb4c4;
+      background: rgba(255, 250, 252, .92);
+      color: #783b56;
       padding: 13px 19px;
       border-radius: 30px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 14px #8d3c5a0a;
     }
 
     .btn:hover {
@@ -382,10 +365,14 @@
     }
 
     .btn.primary {
-      background: #b83261;
+      background: linear-gradient(135deg, #a54465, #c45e7d);
       color: white;
-      border-color: #b83261;
-      box-shadow: 0 8px 20px #b8326126;
+      border-color: transparent;
+      box-shadow: 0 9px 22px #a5446526;
+    }
+
+    .btn.primary:hover {
+      box-shadow: 0 12px 26px #a5446536;
     }
 
     #musicNote {
@@ -397,16 +384,330 @@
 
     footer {
       text-align: center;
-      margin-top: 42px;
+      margin-top: 40px;
       color: #bd8499;
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 1px;
-      line-height: 1.8;
+      line-height: 1.9;
+    }
+
+    /* Beautiful falling flowers */
+
+    .petal {
+      position: fixed;
+      top: -50px;
+      z-index: 4;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 4px 5px #9e4c691c);
+      will-change: transform, opacity;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -12vh, 0) rotate(0deg) scale(.72);
+        opacity: 0;
+      }
+
+      9% {
+        opacity: .82;
+      }
+
+      48% {
+        transform: translate3d(var(--half-drift), 48vh, 0)
+          rotate(var(--half-spin)) scale(1);
+      }
+
+      100% {
+        transform: translate3d(var(--drift), 112vh, 0)
+          rotate(var(--spin)) scale(1.12);
+        opacity: 0;
+      }
+    }
+
+    /* Elegant welcome screen */
+
+    body.intro-active {
+      overflow: hidden;
+    }
+
+    .welcome-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 28px;
+      text-align: center;
+      color: #fff8fb;
+      background:
+        radial-gradient(ellipse at 16% 14%, #9b5b76 0, transparent 36%),
+        radial-gradient(ellipse at 88% 84%, #5e2b47 0, transparent 42%),
+        linear-gradient(145deg, #321b2a 0%, #54253d 48%, #3d2033 100%);
+      transition: opacity .85s, transform .85s, visibility .85s;
+    }
+
+    .welcome-screen:before,
+    .welcome-screen:after {
+      content: '';
+      position: absolute;
+      width: min(78vw, 620px);
+      aspect-ratio: 1;
+      border: 1px solid #f2cbd52d;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .welcome-screen:after {
+      width: min(61vw, 470px);
+      border-color: #f2cbd51c;
+    }
+
+    .welcome-screen.leave {
+      opacity: 0;
+      transform: scale(1.035);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .welcome-content {
+      width: min(680px, 100%);
+      position: relative;
+      z-index: 2;
+      animation: welcomeRise 1s .08s both;
+    }
+
+    @keyframes welcomeRise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-kicker {
+      color: #ecc4d3;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 10px;
+      margin-bottom: 22px;
+    }
+
+    .welcome-flower {
+      color: #f1c6d5;
+      font-size: 35px;
+      margin: 0 auto 19px;
+      text-shadow: 0 0 30px #f8c6da44;
+      animation: flowerFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes flowerFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(-7deg);
+      }
+      50% {
+        transform: translateY(-7px) rotate(7deg);
+      }
+    }
+
+    .welcome-title {
+      font: 500 clamp(36px, 7.7vw, 69px)/1.12 'Playfair Display', serif;
+      letter-spacing: -1.5px;
+      color: #fff4f7;
+      margin: 0 0 19px;
+    }
+
+    .welcome-title em {
+      color: #efb4c9;
+      font-weight: 500;
+    }
+
+    .welcome-copy {
+      color: #e4cbd5;
+      font-size: 14px;
+      line-height: 1.9;
+      max-width: 420px;
+      margin: 0 auto 29px;
+    }
+
+    .enter-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 22px;
+      border: 1px solid #f4d8e2a8;
+      border-radius: 999px;
+      color: #55283f;
+      background: linear-gradient(135deg, #fff3f7, #edc0d0);
+      font: 600 13px 'DM Sans', sans-serif;
+      letter-spacing: .2px;
+      cursor: pointer;
+      box-shadow: 0 10px 35px #180b142e;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .enter-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 38px #180b143d;
+    }
+
+    .enter-button span {
+      font-size: 17px;
+    }
+
+    .welcome-foot {
+      display: block;
+      margin-top: 34px;
+      color: #d6adbd;
+      text-transform: uppercase;
+      letter-spacing: 2.7px;
+      font-size: 9px;
+    }
+
+    .intro-deco {
+      position: absolute;
+      color: #f0c0d2;
+      opacity: .26;
+      pointer-events: none;
+      animation: decoDrift 8s ease-in-out infinite;
+    }
+
+    .intro-deco.d1 {
+      top: 12%;
+      left: 10%;
+      font-size: 28px;
+    }
+
+    .intro-deco.d2 {
+      top: 21%;
+      right: 12%;
+      font-size: 19px;
+      animation-delay: -3s;
+    }
+
+    .intro-deco.d3 {
+      bottom: 13%;
+      left: 15%;
+      font-size: 22px;
+      animation-delay: -5s;
+    }
+
+    .intro-deco.d4 {
+      bottom: 18%;
+      right: 9%;
+      font-size: 31px;
+      animation-delay: -2s;
+    }
+
+    @keyframes decoDrift {
+      0%, 100% {
+        transform: translateY(0) rotate(0);
+      }
+      50% {
+        transform: translateY(-13px) rotate(12deg);
+      }
+    }
+
+    /* Small music icon at the top */
+
+    .music-dock {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: calc(100vw - 30px);
+      padding: 7px 9px;
+      border: 1px solid #f0d7e1;
+      border-radius: 999px;
+      color: #71384f;
+      background: rgba(255, 250, 252, .9);
+      box-shadow: 0 8px 26px #55233a14;
+      backdrop-filter: blur(15px);
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity .35s, transform .35s;
+    }
+
+    .music-dock.ready {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .music-note-icon {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f1d7e1;
+      color: #9b4162;
+      font-size: 16px;
+    }
+
+    .music-track {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .music-track small {
+      font-size: 7px;
+      line-height: 1;
+      letter-spacing: 1.3px;
+      color: #a47789;
+      text-transform: uppercase;
+    }
+
+    .music-track strong {
+      font: 600 13px 'Playfair Display', serif;
+      white-space: nowrap;
+    }
+
+    .music-toggle {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 28px;
+      border: 0;
+      border-radius: 50%;
+      color: #fff7fa;
+      background: #a84c6c;
+      cursor: pointer;
+      font-size: 11px;
+      transition: transform .2s;
+    }
+
+    .music-toggle:hover {
+      transform: scale(1.08);
+    }
+
+    .music-iframe {
+      position: fixed;
+      left: -260px;
+      top: -260px;
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+      pointer-events: none;
+      border: 0;
     }
 
     @media (max-width: 520px) {
       .page {
-        padding-top: 30px;
+        padding-top: 35px;
       }
 
       .letter p {
@@ -430,24 +731,82 @@
         letter-spacing: 2px;
         font-size: 10px;
       }
+
+      .welcome-screen {
+        padding: 22px;
+      }
+
+      .welcome-kicker {
+        letter-spacing: 2.7px;
+        font-size: 9px;
+      }
+
+      .welcome-copy {
+        font-size: 13px;
+      }
+
+      .music-dock {
+        top: 9px;
+        right: 9px;
+        gap: 7px;
+        padding: 6px 8px;
+      }
+
+      .music-note-icon {
+        width: 27px;
+        height: 27px;
+        flex-basis: 27px;
+      }
+
+      .music-track strong {
+        font-size: 12px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
+      *, *:before, *:after {
+        animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: .01ms !important;
       }
     }
   </style>
 </head>
 
-<body>
-  <main class="page">
+<body class="intro-active">
 
+  <!-- Welcome screen -->
+  <div class="welcome-screen" id="welcomeScreen">
+    <span class="intro-deco d1" aria-hidden="true">✿</span>
+    <span class="intro-deco d2" aria-hidden="true">♡</span>
+    <span class="intro-deco d3" aria-hidden="true">❀</span>
+    <span class="intro-deco d4" aria-hidden="true">✧</span>
+
+    <div class="welcome-content">
+      <div class="welcome-kicker">A little world made just for you</div>
+      <div class="welcome-flower" aria-hidden="true">✿</div>
+
+      <h2 class="welcome-title">
+        For the girl who made<br>
+        <em>my heart feel something.</em>
+      </h2>
+
+      <p class="welcome-copy">
+        Some feelings deserve their own little world.<br>
+        Step inside… this one was made with you in mind. ♡
+      </p>
+
+      <button class="enter-button" id="enterButton" type="button">
+        Open your little world <span>♡</span>
+      </button>
+
+      <span class="welcome-foot">made with love · just for you</span>
+    </div>
+  </div>
+
+  <!-- Main page -->
+  <main class="page">
     <div class="eyebrow">
       A little piece of my heart · made just for you
     </div>
@@ -469,12 +828,14 @@
       <div class="divider">✿ ♡ ✿</div>
     </section>
 
+    <!-- Love letter envelope -->
     <section class="envelope-section">
       <button
         class="envelope"
         id="envelope"
         aria-label="Open my love letter"
         aria-expanded="false"
+        type="button"
       >
         <div class="env-back"></div>
 
@@ -493,8 +854,8 @@
       </p>
     </section>
 
+    <!-- Your original letter -->
     <article class="letter" id="letter">
-
       <h2 class="letter-title">
         My Feelings for You, Maa ❤️😘
       </h2>
@@ -557,29 +918,27 @@
       <p>
         Nenu nee life lo most important person kaakapovachu maa,
         kaani nuvvu naaku importance ichhaavu. Adhi naaku chaala
-        special nuvvu thepincchina love feeling neeke sontham
-        avvali ani nenu Naa feelings anni neeku cheppalani
+        special. Nuvvu thepincchina love feeling neeke sontham
+        avvali ani nenu naa feelings anni neeku cheppalani
         anipinchindhi. Andhuke ee letter raasthunnaanu, maa.
       </p>
 
       <div class="signature">
         <div class="big">I LOVE YOU, MAA</div>
-
         <div class="roses">😘 ❤️ 🌹</div>
 
         <p class="small">
           With all the feelings I couldn't say out loud… 💗
         </p>
       </div>
-
     </article>
 
     <div class="controls">
-      <button class="btn primary" id="openBtn">
+      <button class="btn primary" id="openBtn" type="button">
         💌 Open My Heart
       </button>
 
-      <button class="btn" id="musicBtn">
+      <button class="btn" id="musicBtn" type="button">
         ♫ Play a Little Melody
       </button>
     </div>
@@ -592,187 +951,28 @@
       Made with love, just for you ♡<br>
       A special feeling, written from my heart 🌹
     </footer>
-
   </main>
 
-  <script>
-    // Falling flowers and rose petals
-    function createPetals() {
-      const flowers = ["🌸", "🌹", "💮", "🌷", "♡"];
+  <!-- Minimal music player in the top corner -->
+  <div class="music-dock" id="musicDock" aria-label="Background music controls">
+    <div class="music-note-icon" aria-hidden="true">♫</div>
 
-      for (let i = 0; i < 25; i++) {
-        const petal = document.createElement("span");
+    <div class="music-track">
+      <small>our background song</small>
+      <strong>her · JVKE</strong>
+    </div>
 
-        petal.className = "petal";
-        petal.textContent =
-          flowers[Math.floor(Math.random() * flowers.length)];
+    <button
+      class="music-toggle"
+      id="musicToggle"
+      type="button"
+      aria-label="Pause background music"
+      title="Pause her by JVKE"
+    >Ⅱ</button>
+  </div>
 
-        petal.style.left = Math.random() * 100 + "vw";
-        petal.style.fontSize = (13 + Math.random() * 15) + "px";
-        petal.style.animationDuration = (9 + Math.random() * 13) + "s";
-        petal.style.animationDelay = (-Math.random() * 20) + "s";
-
-        document.body.appendChild(petal);
-      }
-    }
-
-    createPetals();
-
-
-    // Open the animated envelope and reveal the letter
-    const envelope = document.getElementById("envelope");
-    const letter = document.getElementById("letter");
-    const hint = document.getElementById("hint");
-
-    function openLetter() {
-      if (!letter.classList.contains("show")) {
-        envelope.classList.add("open");
-        envelope.setAttribute("aria-expanded", "true");
-
-        hint.textContent = "A letter, straight from my heart 💗";
-
-        letter.classList.add("show");
-
-        setTimeout(() => {
-          letter.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }, 350);
-
-        heartBurst();
-      } else {
-        letter.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
-    }
-
-    envelope.addEventListener("click", openLetter);
-
-    document.getElementById("openBtn")
-      .addEventListener("click", openLetter);
-
-
-    // Floating hearts appear when the letter opens
-    function heartBurst() {
-      const symbols = ["💗", "💕", "🌸", "♡", "❤️"];
-
-      for (let i = 0; i < 20; i++) {
-        const heart = document.createElement("span");
-
-        heart.textContent = symbols[i % symbols.length];
-
-        heart.style.cssText = `
-          position: fixed;
-          left: ${10 + Math.random() * 80}vw;
-          top: ${30 + Math.random() * 40}vh;
-          z-index: 10;
-          pointer-events: none;
-          font-size: ${16 + Math.random() * 20}px;
-          transition: transform 1.6s ease, opacity 1.6s ease;
-        `;
-
-        document.body.appendChild(heart);
-
-        requestAnimationFrame(() => {
-          heart.style.transform =
-            "translateY(-140px) rotate(35deg)";
-          heart.style.opacity = "0";
-        });
-
-        setTimeout(() => heart.remove(), 1700);
-      }
-    }
-
-
-    // Gentle original melody generated by the browser
-    // No external audio file is required.
-    let audioContext = null;
-    let melodyTimer = null;
-    let noteIndex = 0;
-
-    const notes = [
-      523.25, 659.25, 783.99, 659.25,
-      587.33, 698.46, 659.25, 523.25
-    ];
-
-    function playNote() {
-      if (!audioContext) return;
-
-      const oscillator = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-
-      oscillator.type = "sine";
-      oscillator.frequency.value =
-        notes[noteIndex % notes.length];
-
-      gain.gain.setValueAtTime(
-        0.0001,
-        audioContext.currentTime
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.06,
-        audioContext.currentTime + 0.04
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        audioContext.currentTime + 0.48
-      );
-
-      oscillator.connect(gain);
-      gain.connect(audioContext.destination);
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.5);
-
-      noteIndex++;
-    }
-
-    const musicBtn = document.getElementById("musicBtn");
-    const musicNote = document.getElementById("musicNote");
-
-    musicBtn.addEventListener("click", async () => {
-      if (melodyTimer) {
-        clearInterval(melodyTimer);
-        melodyTimer = null;
-
-        musicBtn.textContent = "♫ Play a Little Melody";
-        musicNote.textContent = "Melody paused ♡";
-        return;
-      }
-
-      try {
-        const AudioContextClass =
-          window.AudioContext || window.webkitAudioContext;
-
-        if (!AudioContextClass) {
-          musicNote.textContent =
-            "Audio is not supported in this browser.";
-          return;
-        }
-
-        audioContext =
-          audioContext || new AudioContextClass();
-
-        await audioContext.resume();
-
-        playNote();
-
-        melodyTimer = setInterval(playNote, 520);
-
-        musicBtn.textContent = "Ⅱ Pause the Melody";
-        musicNote.textContent =
-          "A tiny melody, just for you 🎶";
-
-      } catch (error) {
-        musicNote.textContent =
-          "The melody could not start in this browser.";
-      }
-    });
-  </script>
-</body>
-</html>
+  <iframe
+    class="music-iframe"
+    id="songFrame"
+    title="her by JVKE background music"
+    allow="autoplay; encrypted-media;
