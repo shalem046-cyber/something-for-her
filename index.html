@@ -1,1 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff0f5">
+  <title>My Feelings for You, Maa ❤️</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink: #f8c4d6;
+      --rose: #d94d79;
+      --deep: #8f244b;
+      --text: #654151;
+      --cream: #fffafd;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      background:
+        radial-gradient(ellipse at top left, #ffe0eb, transparent 45%),
+        radial-gradient(ellipse at bottom right, #f7d9e6, transparent 40%),
+        linear-gradient(135deg, #fffafd, #fff0f5);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      width: min(850px, 92%);
+      margin: auto;
+      padding: 42px 0 60px;
+      position: relative;
+    }
+
+    .eyebrow {
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #b35a78;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 34px 0 20px;
+    }
+
+    .main-heart {
+      display: inline-block;
+      font-size: 44px;
+      animation: heartbeat 1.6s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.15); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.1); }
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(43px, 8vw, 76px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      font-weight: 500;
+      margin: 16px 0;
+      color: #762744;
+    }
+
+    h1 em {
+      color: var(--rose);
+    }
+
+    .subtitle {
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 15px;
+      color: #9b6578;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 27px 0;
+      color: var(--rose);
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      width: 65px;
+      height: 1px;
+      background: #eab8ca;
+    }
+
+    /* Floating and falling flowers */
+
+    .petal {
+      position: fixed;
+      top: -50px;
+      z-index: 5;
+      pointer-events: none;
+      user-select: none;
+      animation: fall linear infinite;
+      filter: drop-shadow(0 3px 4px #a6426520);
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -10vh, 0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.9;
+      }
+
+      50% {
+        transform: translate3d(35px, 50vh, 0) rotate(240deg);
+      }
+
+      100% {
+        transform: translate3d(-30px, 115vh, 0) rotate(600deg);
+        opacity: 0.1;
+      }
+    }
+
+    /* Envelope */
+
+    .envelope-section {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 30px 0 35px;
+    }
+
+    .envelope {
+      width: min(310px, 82vw);
+      height: 195px;
+      position: relative;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      filter: drop-shadow(0 15px 20px #a6426525);
+      transition: transform 0.3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .envelope:hover {
+      transform: translateY(-5px);
+    }
+
+    .env-back {
+      position: absolute;
+      inset: 18px 0 0;
+      background: #e9a3bb;
+      border-radius: 8px;
+    }
+
+    .env-paper {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 8px;
+      height: 145px;
+      background: #fffdfd;
+      border-radius: 6px;
+      box-shadow: 0 3px 12px #7b2a4812;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.8s ease;
+      z-index: 1;
+    }
+
+    .env-paper .paper-icon {
+      font-size: 32px;
+    }
+
+    .env-paper .paper-text {
+      font-family: "Playfair Display", serif;
+      color: #a94367;
+      font-size: 17px;
+      margin-top: 7px;
+    }
+
+    .env-front {
+      position: absolute;
+      inset: 18px 0 0;
+      background: linear-gradient(145deg, #f6c4d4, #df87a5);
+      clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+      border-radius: 0 0 8px 8px;
+      z-index: 2;
+    }
+
+    .env-flap {
+      position: absolute;
+      inset: 18px 0 auto;
+      height: 105px;
+      background: #f2b4c9;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top;
+      transition: transform 0.65s ease;
+      z-index: 3;
+    }
+
+    .seal {
+      position: absolute;
+      left: 50%;
+      top: 92px;
+      transform: translateX(-50%);
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #b83261;
+      color: white;
+      font-size: 21px;
+      box-shadow: 0 3px 8px #8f244b33;
+      z-index: 4;
+    }
+
+    .envelope.open .env-flap {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+
+    .envelope.open .env-paper {
+      transform: translateY(-75px);
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #ad7186;
+      text-align: center;
+    }
+
+    /* Main love letter */
+
+    .letter {
+      display: none;
+      background: rgba(255, 253, 253, 0.96);
+      border: 1px solid #f2d6e0;
+      border-radius: 20px;
+      padding: clamp(23px, 5vw, 48px);
+      box-shadow: 0 22px 70px #9d41651a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: linear-gradient(#e78ca9, #b83261);
+    }
+
+    .letter.show {
+      display: block;
+      animation: revealLetter 0.9s ease both;
+    }
+
+    @keyframes revealLetter {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .letter-title {
+      font-family: "Playfair Display", serif;
+      text-align: center;
+      font-size: clamp(27px, 5vw, 40px);
+      color: #8f244b;
+      margin-bottom: 8px;
+    }
+
+    .letter-subtitle {
+      text-align: center;
+      color: #c16a88;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .letter p {
+      font-size: 15px;
+      line-height: 2;
+      margin-bottom: 20px;
+      overflow-wrap: anywhere;
+    }
+
+    .letter strong {
+      color: #a12e58;
+    }
+
+    .signature {
+      text-align: center;
+      padding-top: 25px;
+      margin-top: 20px;
+      border-top: 1px solid #f3dbe4;
+    }
+
+    .signature .big {
+      font-family: "Playfair Display", serif;
+      color: #b83261;
+      font-size: clamp(29px, 6vw, 45px);
+      line-height: 1.3;
+    }
+
+    .signature .roses {
+      font-size: 27px;
+      margin-top: 12px;
+      letter-spacing: 5px;
+    }
+
+    .signature .small {
+      color: #bd8499;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+
+    /* Buttons */
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 27px 0;
+    }
+
+    .btn {
+      border: 1px solid #e7a7bd;
+      background: #fff8fb;
+      color: #9a3158;
+      padding: 13px 19px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px #b832611c;
+    }
+
+    .btn.primary {
+      background: #b83261;
+      color: white;
+      border-color: #b83261;
+      box-shadow: 0 8px 20px #b8326126;
+    }
+
+    #musicNote {
+      text-align: center;
+      min-height: 20px;
+      font-size: 12px;
+      color: #b77990;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 42px;
+      color: #bd8499;
+      font-size: 12px;
+      letter-spacing: 1px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        padding-top: 30px;
+      }
+
+      .letter p {
+        font-size: 14px;
+        line-height: 1.9;
+      }
+
+      .envelope {
+        height: 175px;
+      }
+
+      .env-paper {
+        height: 135px;
+      }
+
+      .seal {
+        top: 83px;
+      }
+
+      .eyebrow {
+        letter-spacing: 2px;
+        font-size: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <div class="eyebrow">
+      A little piece of my heart · made just for you
+    </div>
+
+    <section class="hero">
+      <div class="main-heart">💗</div>
+
+      <h1>
+        My Feelings for<br>
+        <em>You, Maa</em>
+      </h1>
+
+      <p class="subtitle">
+        Some feelings are too special to keep inside.
+        So I made this little place, just to tell you
+        what my heart has been holding. ❤️
+      </p>
+
+      <div class="divider">✿ ♡ ✿</div>
+    </section>
+
+    <section class="envelope-section">
+      <button
+        class="envelope"
+        id="envelope"
+        aria-label="Open my love letter"
+        aria-expanded="false"
+      >
+        <div class="env-back"></div>
+
+        <div class="env-paper">
+          <span class="paper-icon">💌</span>
+          <span class="paper-text">To my Maa, with love</span>
+        </div>
+
+        <div class="env-front"></div>
+        <div class="env-flap"></div>
+        <div class="seal">♥</div>
+      </button>
+
+      <p class="hint" id="hint">
+        Tap the envelope to open my heart ✨
+      </p>
+    </section>
+
+    <article class="letter" id="letter">
+
+      <h2 class="letter-title">
+        My Feelings for You, Maa ❤️😘
+      </h2>
+
+      <div class="letter-subtitle">
+        Every word comes from my heart
+      </div>
+
+      <p>
+        Neeku gurthundo ledho kaani, naaku love anedhi naaku
+        interest ledhu maa. Kaani nuvvu naaku propose chesinappudu,
+        naaku em anipinchindhi ante, “Naaku kuda ila ammayilu
+        propose chesthaara ra? Oka vela boys oppukokapothe
+        vaallu em chesthaaru?” ani naa mind lo anipinchindhi.
+      </p>
+
+      <p>
+        Kaani nenu neeku konni rojulu aagi mana propose cheddhaam
+        le ani aaganu. But anthalo neeku vere love set ayyindhi ani
+        thelisindhi maa. Nenu lopala chaala ante chaala baadha paddaanu.
+        Kaani nenu ninnu chusthoone unde vaadini, exam hall lo aina,
+        classroom lo aina, nuvvu ekkada unte akkada ninnu chusthoone
+        unde vaadini.
+      </p>
+
+      <p>
+        Oka saari Krethana nannu, “Neeku Raju thelusaa?
+        Wisdom School?” ani adigindhi. Nenu “Endhuku?
+        Thelusaa ani aduguthunnaav?” ani adigaanu. Appudu thanu,
+        “Nee lover peru Raju, ippudu 10th class” ani cheppindhi.
+      </p>
+
+      <p>
+        Aa maata vinnappudu naa kantlo neellu vachhaayi maa.
+        Kaani nenu control chesukolekapoyaanu. Tarvatha nuvvu
+        naaku oka message pettavu. Ala ala mana relationship
+        start ayyindhi.
+      </p>
+
+      <p>
+        Kaani nuvvu nannu “Annayya” ani annaav. Sare le maa,
+        mana lover ni love lo unnappude prema chupinchadam kaadhu,
+        oka annayya la kuda prema chupinchavachu ani anukunnaanu.
+        Ala ala mana iddari chats continue ayyayi.
+      </p>
+
+      <p>
+        <strong>
+          Nenu ninnu love cheyadaniki kaaranam enti ante, maa… ❤️
+        </strong>
+      </p>
+
+      <p>
+        Naaku love meedha feelings anevi nee valle vachhaayi.
+        Love ante enti, okari gurinchi intha alochinchadam enti,
+        vaallu mana life lo entha special avvagalaru anedhi
+        naaku nee valla thelisindhi.
+      </p>
+
+      <p>
+        Nenu nee life lo most important person kaakapovachu maa,
+        kaani nuvvu naaku importance ichhaavu. Adhi naaku chaala
+        special nuvvu thepincchina love feeling neeke sontham
+        avvali ani nenu Naa feelings anni neeku cheppalani
+        anipinchindhi. Andhuke ee letter raasthunnaanu, maa.
+      </p>
+
+      <div class="signature">
+        <div class="big">I LOVE YOU, MAA</div>
+
+        <div class="roses">😘 ❤️ 🌹</div>
+
+        <p class="small">
+          With all the feelings I couldn't say out loud… 💗
+        </p>
+      </div>
+
+    </article>
+
+    <div class="controls">
+      <button class="btn primary" id="openBtn">
+        💌 Open My Heart
+      </button>
+
+      <button class="btn" id="musicBtn">
+        ♫ Play a Little Melody
+      </button>
+    </div>
+
+    <div id="musicNote" aria-live="polite">
+      A little surprise, made with love 🌷
+    </div>
+
+    <footer>
+      Made with love, just for you ♡<br>
+      A special feeling, written from my heart 🌹
+    </footer>
+
+  </main>
+
+  <script>
+    // Falling flowers and rose petals
+    function createPetals() {
+      const flowers = ["🌸", "🌹", "💮", "🌷", "♡"];
+
+      for (let i = 0; i < 25; i++) {
+        const petal = document.createElement("span");
+
+        petal.className = "petal";
+        petal.textContent =
+          flowers[Math.floor(Math.random() * flowers.length)];
+
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.fontSize = (13 + Math.random() * 15) + "px";
+        petal.style.animationDuration = (9 + Math.random() * 13) + "s";
+        petal.style.animationDelay = (-Math.random() * 20) + "s";
+
+        document.body.appendChild(petal);
+      }
+    }
+
+    createPetals();
+
+
+    // Open the animated envelope and reveal the letter
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const hint = document.getElementById("hint");
+
+    function openLetter() {
+      if (!letter.classList.contains("show")) {
+        envelope.classList.add("open");
+        envelope.setAttribute("aria-expanded", "true");
+
+        hint.textContent = "A letter, straight from my heart 💗";
+
+        letter.classList.add("show");
+
+        setTimeout(() => {
+          letter.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }, 350);
+
+        heartBurst();
+      } else {
+        letter.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }
+
+    envelope.addEventListener("click", openLetter);
+
+    document.getElementById("openBtn")
+      .addEventListener("click", openLetter);
+
+
+    // Floating hearts appear when the letter opens
+    function heartBurst() {
+      const symbols = ["💗", "💕", "🌸", "♡", "❤️"];
+
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("span");
+
+        heart.textContent = symbols[i % symbols.length];
+
+        heart.style.cssText = `
+          position: fixed;
+          left: ${10 + Math.random() * 80}vw;
+          top: ${30 + Math.random() * 40}vh;
+          z-index: 10;
+          pointer-events: none;
+          font-size: ${16 + Math.random() * 20}px;
+          transition: transform 1.6s ease, opacity 1.6s ease;
+        `;
+
+        document.body.appendChild(heart);
+
+        requestAnimationFrame(() => {
+          heart.style.transform =
+            "translateY(-140px) rotate(35deg)";
+          heart.style.opacity = "0";
+        });
+
+        setTimeout(() => heart.remove(), 1700);
+      }
+    }
+
+
+    // Gentle original melody generated by the browser
+    // No external audio file is required.
+    let audioContext = null;
+    let melodyTimer = null;
+    let noteIndex = 0;
+
+    const notes = [
+      523.25, 659.25, 783.99, 659.25,
+      587.33, 698.46, 659.25, 523.25
+    ];
+
+    function playNote() {
+      if (!audioContext) return;
+
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.value =
+        notes[noteIndex % notes.length];
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        audioContext.currentTime
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.06,
+        audioContext.currentTime + 0.04
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        audioContext.currentTime + 0.48
+      );
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.5);
+
+      noteIndex++;
+    }
+
+    const musicBtn = document.getElementById("musicBtn");
+    const musicNote = document.getElementById("musicNote");
+
+    musicBtn.addEventListener("click", async () => {
+      if (melodyTimer) {
+        clearInterval(melodyTimer);
+        melodyTimer = null;
+
+        musicBtn.textContent = "♫ Play a Little Melody";
+        musicNote.textContent = "Melody paused ♡";
+        return;
+      }
+
+      try {
+        const AudioContextClass =
+          window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) {
+          musicNote.textContent =
+            "Audio is not supported in this browser.";
+          return;
+        }
+
+        audioContext =
+          audioContext || new AudioContextClass();
+
+        await audioContext.resume();
+
+        playNote();
+
+        melodyTimer = setInterval(playNote, 520);
+
+        musicBtn.textContent = "Ⅱ Pause the Melody";
+        musicNote.textContent =
+          "A tiny melody, just for you 🎶";
+
+      } catch (error) {
+        musicNote.textContent =
+          "The melody could not start in this browser.";
+      }
+    });
+  </script>
+</body>
+</html>
