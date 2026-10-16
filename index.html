@@ -1317,6 +1317,8 @@
     const enterButton = document.getElementById("enterButton");
     const musicDock = document.getElementById("musicDock");
     const musicToggle = document.getElementById("musicToggle");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicNote = document.getElementById("musicNote");
     const songFrame = document.getElementById("songFrame");
 
     let musicIsPlaying = false;
@@ -1351,6 +1353,8 @@
       musicToggle.textContent = "Ⅱ";
       musicToggle.setAttribute("aria-label", "Pause background music");
       musicToggle.title = "Pause her by JVKE";
+      musicBtn.textContent = "Ⅱ Pause the Melody";
+      musicNote.textContent = "Now playing: her · JVKE ♡";
     }
 
     function pauseMusic() {
@@ -1370,6 +1374,8 @@
       musicToggle.textContent = "▶";
       musicToggle.setAttribute("aria-label", "Play background music");
       musicToggle.title = "Play her by JVKE";
+      musicBtn.textContent = "♫ Play a Little Melody";
+      musicNote.textContent = "Music paused · play it again whenever you like ♡";
     }
 
     // Opening the little world also attempts to start the song.
@@ -1390,6 +1396,16 @@
       if (musicIsPlaying) {
         pauseMusic();
       } else {
+        startMusic();
+      }
+    });
+
+    // The main music button now controls the same background song.
+    musicBtn.addEventListener("click", () => {
+      if (musicIsPlaying) {
+        pauseMusic();
+      } else {
+        musicDock.classList.add("ready");
         startMusic();
       }
     });
