@@ -128,6 +128,130 @@
       background: #e8c0cf;
     }
 
+
+    /* Personal photo album */
+    .memories-section {
+      margin: 30px 0 42px;
+      padding: clamp(20px, 4vw, 34px);
+      border: 1px solid #edd5df;
+      border-radius: 24px;
+      background: rgba(255, 253, 251, .68);
+      box-shadow: 0 18px 52px #71324b0a;
+    }
+    .memories-heading { text-align: center; }
+    .memories-title {
+      margin: 12px 0 10px;
+      color: #55263d;
+      font: 500 clamp(30px, 5.4vw, 46px)/1.2 'Playfair Display', serif;
+      letter-spacing: -1px;
+    }
+    .memories-title em { color: #bd5877; }
+    .memories-copy {
+      max-width: 460px;
+      margin: 0 auto;
+      color: #90697a;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .photo-status {
+      margin: 20px 0 4px;
+      text-align: center;
+      color: #a47789;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+      gap: 15px;
+      margin-top: 22px;
+    }
+    .photo-card {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 8px;
+      border: 1px solid #ecd2dc;
+      border-radius: 17px;
+      background: rgba(255, 250, 252, .95);
+      color: #783b56;
+      text-align: left;
+      cursor: zoom-in;
+      box-shadow: 0 7px 22px #8d3c5a0b;
+      transition: transform .25s ease, box-shadow .25s ease;
+      animation: photoArrive .55s ease both;
+    }
+    .photo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 13px 28px #8d3c5a18;
+    }
+    .photo-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 11px;
+      background: #f8e9ee;
+    }
+    .photo-caption {
+      display: block;
+      padding: 10px 5px 4px;
+      overflow-wrap: anywhere;
+      font: 15px 'Playfair Display', serif;
+    }
+    @keyframes photoArrive {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .photo-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      padding: 24px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(41, 19, 32, .94);
+      cursor: zoom-out;
+    }
+    .photo-lightbox.open { display: flex; animation: reveal .2s ease both; }
+    .photo-lightbox img {
+      display: block;
+      max-width: min(94vw, 1000px);
+      max-height: 78vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 18px 55px #0005;
+    }
+    .photo-lightbox-caption {
+      color: #fff2f7;
+      font: 16px 'Playfair Display', serif;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+    .photo-lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid #ffffff55;
+      border-radius: 50%;
+      color: #fff7fa;
+      background: #ffffff18;
+      font-size: 23px;
+      cursor: pointer;
+    }
+    @media (max-width: 520px) {
+      .memories-section { padding: 18px 13px 22px; }
+      .photo-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .photo-card { padding: 6px; border-radius: 13px; }
+      .photo-card img { aspect-ratio: 3 / 4; border-radius: 8px; }
+      .photo-caption { font-size: 13px; }
+    }
+
     /* Envelope */
 
     .envelope-section {
@@ -828,6 +952,23 @@
       <div class="divider">✿ ♡ ✿</div>
     </section>
 
+    <!-- Photos from the uploaded album ZIP -->
+    <section class="memories-section" aria-labelledby="memoriesTitle">
+      <div class="memories-heading">
+        <div class="eyebrow">little moments, kept close</div>
+        <h2 class="memories-title" id="memoriesTitle">A little gallery of <em>you</em> ♡</h2>
+        <p class="memories-copy">Some moments are too lovely to leave tucked away. Here are the photos, gathered into one little place.</p>
+      </div>
+      <p class="photo-status" id="photoStatus" role="status" aria-live="polite">Opening your photo album…</p>
+      <div class="photo-gallery" id="photoGallery"></div>
+    </section>
+
+    <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
+      <button class="photo-lightbox-close" id="photoLightboxClose" type="button" aria-label="Close photo preview">×</button>
+      <img id="photoLightboxImage" alt="">
+      <p class="photo-lightbox-caption" id="photoLightboxCaption"></p>
+    </div>
+
     <!-- Love letter envelope -->
     <section class="envelope-section">
       <button
@@ -1171,186 +1312,104 @@
       }
     });
   </script>
-</body>
-</html>
- picture-in-picture"
-    loading="eager"
-    referrerpolicy="strict-origin-when-cross-origin"
-  ></iframe>
-
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script>
-    // Falling flowers 🌸
-    function createPetals() {
-      const flowers = ["🌸", "🌷", "🌺", "✿", "❀", "♡", "💮"];
-      const count = window.innerWidth <= 520 ? 24 : 36;
+    // Load pictures from the ZIP already uploaded to this repository.
+    (async function loadPhotoAlbum() {
+      const zipUrl = "https://raw.githubusercontent.com/shalem046-cyber/something-for-her/main/WhatsApp%20Unknown%202026-10-16%20at%2010.08.49%20PM.zip";
+      const gallery = document.getElementById("photoGallery");
+      const status = document.getElementById("photoStatus");
+      const lightbox = document.getElementById("photoLightbox");
+      const lightboxImage = document.getElementById("photoLightboxImage");
+      const lightboxCaption = document.getElementById("photoLightboxCaption");
+      const closeButton = document.getElementById("photoLightboxClose");
 
-      for (let i = 0; i < count; i++) {
-        const petal = document.createElement("span");
-        petal.className = "petal";
-        petal.textContent =
-          flowers[Math.floor(Math.random() * flowers.length)];
-
-        petal.style.left = Math.random() * 100 + "vw";
-        petal.style.fontSize = (12 + Math.random() * 17) + "px";
-        petal.style.animationDuration = (10 + Math.random() * 15) + "s";
-        petal.style.animationDelay = (-Math.random() * 22) + "s";
-
-        const drift = Math.round(Math.random() * 110 - 55);
-        const spin = Math.round(Math.random() * 640 - 320);
-
-        petal.style.setProperty("--drift", drift + "px");
-        petal.style.setProperty("--half-drift", drift / 2 + "px");
-        petal.style.setProperty("--spin", spin + "deg");
-        petal.style.setProperty("--half-spin", spin / 2 + "deg");
-
-        document.body.appendChild(petal);
-      }
-    }
-
-    createPetals();
-
-    // Love letter 💌
-    const envelope = document.getElementById("envelope");
-    const letter = document.getElementById("letter");
-    const hint = document.getElementById("hint");
-
-    function heartBurst() {
-      const symbols = ["💗", "💕", "🌸", "♡", "❤️"];
-
-      for (let i = 0; i < 20; i++) {
-        const heart = document.createElement("span");
-        heart.textContent = symbols[i % symbols.length];
-
-        heart.style.cssText = `
-          position: fixed;
-          left: ${10 + Math.random() * 80}vw;
-          top: ${30 + Math.random() * 40}vh;
-          z-index: 10;
-          pointer-events: none;
-          font-size: ${16 + Math.random() * 20}px;
-          transition: transform 1.6s ease, opacity 1.6s ease;
-        `;
-
-        document.body.appendChild(heart);
-
-        requestAnimationFrame(() => {
-          heart.style.transform =
-            "translateY(-140px) rotate(35deg)";
-          heart.style.opacity = "0";
-        });
-
-        setTimeout(() => heart.remove(), 1700);
-      }
-    }
-
-    function openLetter() {
-      if (!letter.classList.contains("show")) {
-        envelope.classList.add("open");
-        envelope.setAttribute("aria-expanded", "true");
-        hint.textContent = "A letter, straight from my heart 💗";
-        letter.classList.add("show");
-
-        setTimeout(() => {
-          letter.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }, 350);
-
-        heartBurst();
-      } else {
-        letter.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
-    }
-
-    envelope.addEventListener("click", openLetter);
-    document.getElementById("openBtn")
-      .addEventListener("click", openLetter);
-
-    // JVKE - her 🎶
-    const welcomeScreen = document.getElementById("welcomeScreen");
-    const enterButton = document.getElementById("enterButton");
-    const musicDock = document.getElementById("musicDock");
-    const musicToggle = document.getElementById("musicToggle");
-    const songFrame = document.getElementById("songFrame");
-
-    const songVideoId = "f5-IY_Ja1RM";
-    let musicLoaded = false;
-    let musicPlaying = false;
-
-    function startMusic() {
-      if (!musicLoaded) {
-        musicLoaded = true;
-
-        songFrame.src =
-          "https://www.youtube-nocookie.com/embed/" +
-          songVideoId +
-          "?autoplay=1&controls=0&playsinline=1&loop=1&playlist=" +
-          songVideoId +
-          "&enablejsapi=1&origin=" +
-          encodeURIComponent(window.location.origin);
-      } else {
-        songFrame.contentWindow.postMessage(
-          JSON.stringify({
-            event: "command",
-            func: "playVideo",
-            args: ""
-          }),
-          "*"
-        );
+      function displayName(path) {
+        const filename = path.split("/").pop().replace(/\.[^.]+$/, "");
+        return filename.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim() || "A little memory ♡";
       }
 
-      musicPlaying = true;
-      musicToggle.textContent = "Ⅱ";
-      musicToggle.setAttribute(
-        "aria-label",
-        "Pause background music"
-      );
-    }
-
-    function pauseMusic() {
-      if (musicLoaded) {
-        songFrame.contentWindow.postMessage(
-          JSON.stringify({
-            event: "command",
-            func: "pauseVideo",
-            args: ""
-          }),
-          "*"
-        );
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightboxImage.src = "";
       }
 
-      musicPlaying = false;
-      musicToggle.textContent = "▶";
-      musicToggle.setAttribute(
-        "aria-label",
-        "Play background music"
-      );
-    }
+      closeButton.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", function(event) {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") closeLightbox();
+      });
 
-    // Open the welcome screen and attempt to start the music.
-    enterButton.addEventListener("click", () => {
-      startMusic();
+      try {
+        if (typeof JSZip === "undefined") throw new Error("The photo album reader could not load.");
+        const response = await fetch(zipUrl, { cache: "no-cache" });
+        if (!response.ok) throw new Error("The photo album file could not be reached.");
+        const zip = await JSZip.loadAsync(await response.arrayBuffer());
+        const supported = /\.(jpe?g|png|webp|gif|avif)$/i;
+        const files = Object.values(zip.files)
+          .filter(file => !file.dir && supported.test(file.name) &&
+            !file.name.split("/").some(part => part.startsWith("__MACOSX")) &&
+            !file.name.split("/").pop().startsWith("."))
+          .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
-      welcomeScreen.classList.add("leave");
-      document.body.classList.remove("intro-active");
-      musicDock.classList.add("ready");
+        if (!files.length) {
+          status.textContent = "No supported photo files were found in the uploaded album.";
+          return;
+        }
 
-      setTimeout(() => {
-        welcomeScreen.remove();
-      }, 900);
-    });
+        let shown = 0;
+        for (const file of files) {
+          try {
+            const rawBlob = await file.async("blob");
+            const ext = file.name.split(".").pop().toLowerCase();
+            const mime = ({ jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png",
+              webp: "image/webp", gif: "image/gif", avif: "image/avif" })[ext] || "application/octet-stream";
+            const url = URL.createObjectURL(new Blob([rawBlob], { type: mime }));
+            const name = displayName(file.name);
 
-    musicToggle.addEventListener("click", () => {
-      if (musicPlaying) {
-        pauseMusic();
-      } else {
-        startMusic();
+            const card = document.createElement("button");
+            card.type = "button";
+            card.className = "photo-card";
+            card.setAttribute("aria-label", "View photo: " + name);
+
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = name;
+            img.loading = "lazy";
+            img.decoding = "async";
+
+            const caption = document.createElement("span");
+            caption.className = "photo-caption";
+            caption.textContent = name;
+
+            card.append(img, caption);
+            card.addEventListener("click", function() {
+              lightboxImage.src = url;
+              lightboxImage.alt = name;
+              lightboxCaption.textContent = name;
+              lightbox.classList.add("open");
+              closeButton.focus();
+            });
+            img.addEventListener("error", function() {
+              card.remove();
+              shown--;
+              status.textContent = shown > 0 ? shown + " photos, gathered with love ♡" : "The photos could not be displayed.";
+            });
+            gallery.appendChild(card);
+            shown++;
+          } catch (fileError) {
+            console.warn("A photo could not be read:", file.name, fileError);
+          }
+        }
+
+        status.textContent = shown ? shown + " photos, gathered with love ♡" : "The uploaded album did not contain readable photos.";
+      } catch (error) {
+        console.error("Photo gallery error:", error);
+        status.textContent = "The photo album could not be loaded right now. Please refresh the page and try again.";
       }
-    });
+    })();
   </script>
 </body>
 </html>
